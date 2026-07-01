@@ -1,0 +1,5 @@
+import { Navigate, Link } from 'react-router-dom';
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { useAuthStore } from '../store/authStore';
+export function ProfilePage() { const { user, logout } = useAuthStore(); if (!user) return <Navigate to="/login"/>; return <section className="section"><div className="container-page"><Card className="mx-auto max-w-3xl"><div className="flex flex-col gap-6 sm:flex-row sm:items-center"><img src={user.avatar} alt={user.name} className="h-28 w-28 rounded-3xl object-cover"/><div className="flex-1"><p className="font-bold text-brand-600">{user.role}</p><h1 className="text-4xl font-black text-ink dark:text-white">{user.name}</h1><p className="text-slate-500">{user.email}</p></div><Button variant="secondary" onClick={logout}>Logout</Button></div><div className="mt-8 flex gap-3"><Link to="/orders"><Button>View orders</Button></Link><Link to="/admin"><Button variant="secondary">Admin dashboard</Button></Link></div></Card></div></section>; }

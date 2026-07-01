@@ -1,0 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { Input } from '../components/ui/Input';
+import { forgotPassword, login, register as registerUser } from '../services/authService';
+import { useAuthStore } from '../store/authStore';
+interface AuthPageProps { mode: 'login' | 'register' | 'forgot'; }
+const schema = z.object({ name:z.string().optional(), email:z.string().email(), password:z.string().min(6).optional() });
+type AuthForm = z.infer<typeof schema>;
+export function AuthPage({ mode }: AuthPageProps) { const navigate = useNavigate(); const setUser = useAuthStore((state) => state.setUser); const { register, handleSubmit, formState:{ errors, isSubmitting } } = useForm<AuthForm>({ resolver:zodResolver(schema), defaultValues:{ email:'demo@commerceforge.dev', password:'password' } }); const onSubmit = async (values: AuthForm) => { if (mode === 'forgot') { await forgotPassword(values.email); void navigate('/login'); return; } const user = mode === 'register' ? await registerUser({ name: values.name ?? 'New Customer', email: values.email, password: values.password ?? '' }) : await login({ email: values.email, password: values.password ?? '' }); setUser(user); void navigate('/profile'); }; return <section className="section"><div className="container-page"><Card className="mx-auto max-w-md"><h1 className="text-3xl font-black text-ink dark:text-white">{mode === 'login' ? 'Welcome back' : mode === 'register' ? 'Create account' : 'Reset password'}</h1><p className="mt-2 text-slate-500">Demo auth is mocked and persisted locally for portfolio review.</p><form onSubmit={(event) => void handleSubmit(onSubmit)(event)} className="mt-6 grid gap-4">{mode === 'register' && <Input label="Name" {...register('name')} error={errors.name?.message}/>}<Input label="Email" {...register('email')} error={errors.email?.message}/>{mode !== 'forgot' && <Input label="Password" type="password" {...register('password')} error={errors.password?.message}/>}<Button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Please wait...' : mode === 'forgot' ? 'Send reset link' : 'Continue'}</Button></form><div className="mt-5 flex justify-between text-sm"><Link className="text-brand-600" to="/register">Register</Link><Link className="text-brand-600" to="/forgot-password">Forgot password?</Link><Link className="text-brand-600" to="/login">Login</Link></div></Card></div></section>; }

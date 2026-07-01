@@ -1,0 +1,13 @@
+import { Link } from 'react-router-dom';
+import { Trash2 } from 'lucide-react';
+import { Button } from '../components/ui/Button';
+import { Card } from '../components/ui/Card';
+import { EmptyState } from '../components/ui/EmptyState';
+import { OrderSummary } from '../components/common/OrderSummary';
+import { useCartStore, useCartSummary } from '../store/cartStore';
+import { formatMoney } from '../utils/money';
+export function CartPage() {
+  const { lines, subtotal, discount, shipping, tax, total } = useCartSummary(); const cart = useCartStore();
+  if (lines.length === 0) return <section className="section"><div className="container-page"><EmptyState title="Your cart is empty" description="Add some premium products to start checkout." action={<Link to="/products"><Button>Shop products</Button></Link>}/></div></section>;
+  return <section className="section"><div className="container-page"><h1 className="text-4xl font-black text-ink dark:text-white">Shopping cart</h1><div className="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]"><div className="space-y-4">{lines.map((line) => line.product && <Card key={line.productId} className="flex flex-col gap-4 sm:flex-row"><img src={line.product.image} alt={line.product.name} className="h-36 w-full rounded-2xl object-cover sm:w-44"/><div className="flex-1"><h2 className="text-xl font-bold text-ink dark:text-white">{line.product.name}</h2><p className="text-slate-500">{line.product.brand}</p><strong>{formatMoney(line.product.price)}</strong><div className="mt-4 flex items-center gap-3"><select value={line.quantity} onChange={(e) => cart.update(line.productId, Number(e.target.value))} className="rounded-xl border border-slate-200 bg-white p-2 dark:border-slate-700 dark:bg-slate-950">{Array.from({length:9}).map((_,i) => <option key={i+1} value={i+1}>{i+1}</option>)}</select><Button variant="ghost" onClick={() => cart.remove(line.productId)}><Trash2 className="h-4 w-4"/> Remove</Button></div></div></Card>)}</div><Card className="h-max"><h2 className="text-2xl font-black text-ink dark:text-white">Order summary</h2><div className="mt-5"><OrderSummary subtotal={subtotal} discount={discount} shipping={shipping} tax={tax} total={total}/></div><div className="mt-5 flex gap-2"><input aria-label="Discount code" placeholder="PORTFOLIO10" className="min-w-0 flex-1 rounded-2xl border border-slate-200 px-3 dark:border-slate-700 dark:bg-slate-950" onBlur={(e) => cart.applyDiscount(e.target.value)}/><Button variant="secondary" onClick={() => cart.applyDiscount('PORTFOLIO10')}>Apply</Button></div><Link to="/checkout"><Button className="mt-6 w-full" size="lg">Checkout</Button></Link></Card></div></div></section>;
+}

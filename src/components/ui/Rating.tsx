@@ -1,0 +1,2 @@
+import { Star } from 'lucide-react';
+export function Rating({ value, count }: { value: number; count?: number }) { return <span className="inline-flex items-center gap-1 text-sm text-amber-500" aria-label={`${value} out of 5 stars`}><Star className="h-4 w-4 fill-current" /> <strong>{value.toFixed(1)}</strong>{count !== undefined && <span className="text-slate-500 dark:text-slate-400">({count})</span>}</span>; }

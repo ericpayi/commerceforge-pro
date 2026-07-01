@@ -1,0 +1,4 @@
+import { products } from '../data/products';
+import { Card } from '../components/ui/Card';
+import { formatMoney } from '../utils/money';
+export function ComparePage() { const items = products.slice(0,3); return <section className="section"><div className="container-page"><h1 className="text-4xl font-black text-ink dark:text-white">Product comparison</h1><div className="mt-8 grid gap-4 md:grid-cols-3">{items.map((product) => <Card key={product.id}><img src={product.image} alt={product.name} className="h-48 w-full rounded-2xl object-cover"/><h2 className="mt-4 text-xl font-black text-ink dark:text-white">{product.name}</h2><p>{product.brand}</p><p className="mt-3 text-2xl font-black">{formatMoney(product.price)}</p>{Object.entries(product.specifications).map(([k,v]) => <div key={k} className="mt-3 flex justify-between border-t border-slate-200 pt-3 text-sm dark:border-slate-800"><span>{k}</span><strong>{v}</strong></div>)}</Card>)}</div></div></section>; }

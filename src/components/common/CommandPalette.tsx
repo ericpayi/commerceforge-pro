@@ -1,0 +1,9 @@
+import { Command } from 'cmdk';
+import { Search } from 'lucide-react';
+import type { NavigateFunction } from 'react-router-dom';
+import { products } from '../../data/products';
+export function CommandPalette({ open, onOpenChange, onNavigate }: { open: boolean; onOpenChange: (open: boolean) => void; onNavigate: NavigateFunction }) {
+  if (!open) return null;
+  const go = (path: string) => { void onNavigate(path); onOpenChange(false); };
+  return <div className="fixed inset-0 z-50 bg-slate-950/50 p-4 backdrop-blur" onClick={() => onOpenChange(false)}><Command className="mx-auto mt-20 max-w-2xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-950" onClick={(e) => e.stopPropagation()}><div className="flex items-center gap-3 border-b border-slate-200 px-5 dark:border-slate-800"><Search className="h-5 w-5 text-slate-400"/><Command.Input autoFocus placeholder="Search products, orders, pages..." className="h-14 flex-1 bg-transparent outline-none"/></div><Command.List className="max-h-96 overflow-auto p-3"><Command.Empty className="p-6 text-center text-sm text-slate-500">No results found.</Command.Empty><Command.Group heading="Pages" className="text-xs font-bold uppercase text-slate-400">{['/products','/cart','/wishlist','/orders','/admin'].map((path) => <Command.Item key={path} value={path} onSelect={() => go(path)} className="cursor-pointer rounded-xl px-3 py-2 text-sm aria-selected:bg-slate-100 dark:aria-selected:bg-slate-800">{path}</Command.Item>)}</Command.Group><Command.Group heading="Products" className="mt-3 text-xs font-bold uppercase text-slate-400">{products.map((product) => <Command.Item key={product.id} value={product.name} onSelect={() => go(`/products/${product.slug}`)} className="cursor-pointer rounded-xl px-3 py-2 text-sm aria-selected:bg-slate-100 dark:aria-selected:bg-slate-800">{product.name}</Command.Item>)}</Command.Group></Command.List></Command></div>;
+}

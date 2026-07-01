@@ -1,0 +1,3 @@
+import type { ReactNode } from 'react';
+import { PackageSearch } from 'lucide-react';
+export function EmptyState({ title, description, action }: { title: string; description: string; action?: ReactNode }) { return <div className="grid place-items-center rounded-[2rem] border border-dashed border-slate-300 p-12 text-center dark:border-slate-700"><PackageSearch className="mb-4 h-12 w-12 text-slate-400"/><h3 className="text-xl font-bold text-ink dark:text-white">{title}</h3><p className="mt-2 max-w-md text-slate-500 dark:text-slate-400">{description}</p><div className="mt-6">{action}</div></div>; }
