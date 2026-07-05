@@ -4,7 +4,7 @@ import type { User } from '../types/domain';
 export interface Credentials { email: string; password: string; }
 export interface RegisterPayload extends Credentials { name: string; }
 
-const demoUser: User = { id: 'u-1', name: 'Datonomy Founder', email: 'demo@commerceforge.dev', role: 'admin', avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=256&q=80' };
+const demoUser: User = { id: 'u-1', name: 'Datonomy Founder', email: 'demo@commerceforge.dev', role: 'admin', avatar: '/product-media/avatar-admin.svg' };
 
 export async function login(credentials: Credentials): Promise<User> {
   await mockDelay();

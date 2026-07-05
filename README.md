@@ -86,6 +86,7 @@ VITE_MOCK_LATENCY=250
 ## Notes for Reviewers
 
 - Data is intentionally mocked in `src/data/products.ts` and accessed through services to mirror a real API boundary.
+- Product media is local SVG artwork under `public/product-media`, so the UI does not depend on external image APIs or rate-limited third-party assets.
 - Cart, wishlist, auth, and theme persist to local storage through Zustand middleware.
 - TanStack Query caches product/order reads and isolates async state from UI components.
 - Checkout uses React Hook Form + Zod for typed validation.

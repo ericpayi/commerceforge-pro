@@ -8,5 +8,5 @@ export function Button({ className, variant = 'primary', size = 'md', children, 
     variant === 'secondary' && 'border border-slate-200 bg-white text-ink hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-white',
     variant === 'ghost' && 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800',
     variant === 'danger' && 'bg-rose-600 text-white hover:bg-rose-700',
-    size === 'sm' && 'px-3 py-2 text-sm', size === 'md' && 'px-5 py-3 text-sm', size === 'lg' && 'px-7 py-4 text-base', className)} {...props}>{children}</button>;
+    size === 'sm' && 'px-3 py-2 text-xs sm:text-sm', size === 'md' && 'px-4 py-2.5 text-sm sm:px-5 sm:py-3', size === 'lg' && 'px-5 py-3 text-sm sm:px-7 sm:py-4 sm:text-base', className)} {...props}>{children}</button>;
 }
